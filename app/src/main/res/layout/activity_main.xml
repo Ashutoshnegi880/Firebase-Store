@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="PERSON DATA"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             />
 
     </ScrollView>
