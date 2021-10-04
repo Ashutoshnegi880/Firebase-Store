@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity() {
             savePerson(person)
         }
 
-        subscribeToRealTimeUpdates()
+        //subscribeToRealTimeUpdates()
 
-//        btnRetrieveData.setOnClickListener {
-//            retrievePerson()
-//        }
+        btnRetrieveData.setOnClickListener {
+            retrievePerson()
+        }
 
     }
 
@@ -54,8 +54,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun retrievePerson() = CoroutineScope(Dispatchers.IO).launch {
+        val fromAge = etFrom.text.toString().toInt()
+        val toAge = etTo.text.toString().toInt()
         try {
-            val querySnapshot = personCollectionRef.get().await()
+            val querySnapshot = personCollectionRef
+                .whereGreaterThan("age", fromAge)
+                .whereLessThan("age", toAge)
+                .orderBy("age")
+                .get().await()
+
             val sb = StringBuilder()
             for (document in querySnapshot.documents){
                 val person = document.toObject<Person>()
@@ -75,6 +82,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeToRealTimeUpdates() {
+
+        //-------to add query to snapshotListener do as shown below-----
+        //personCollectionRef.whereEqualTo("age",19).addSnapshotListener
+
         personCollectionRef.addSnapshotListener {querySnapshot, firebaseFirestoreException ->
             firebaseFirestoreException?.let {
                 Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
