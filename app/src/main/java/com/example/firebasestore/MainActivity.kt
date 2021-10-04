@@ -31,11 +31,9 @@ class MainActivity : AppCompatActivity() {
             savePerson(person)
         }
 
-        subscribeToRealTimeUpdates()
-
-//        btnRetrieveData.setOnClickListener {
-//            retrievePerson()
-//        }
+        btnRetrieveData.setOnClickListener {
+            retrievePerson()
+        }
 
     }
 
@@ -71,23 +69,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
             }
 
-        }
-    }
-
-    private fun subscribeToRealTimeUpdates() {
-        personCollectionRef.addSnapshotListener {querySnapshot, firebaseFirestoreException ->
-            firebaseFirestoreException?.let {
-                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                return@addSnapshotListener
-            }
-            querySnapshot?.let {
-                val sb = StringBuilder()
-                for (document in it){
-                    val person = document.toObject<Person>()
-                    sb.append("$person\n")
-                }
-                tvPersons.text = sb.toString()
-            }
         }
     }
 }
