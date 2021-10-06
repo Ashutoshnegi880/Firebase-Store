@@ -3,6 +3,7 @@ package com.example.firebasestore
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity() {
             val newPersonMap = getNewPersonMap()
             updatePerson(oldPerson, newPersonMap)
         }
+        btnDeletePerson.setOnClickListener {
+            val person = getOldPerson()
+            deletePerson(person)
+        }
     }
 
     private fun getOldPerson(): Person{
@@ -65,6 +70,39 @@ class MainActivity : AppCompatActivity() {
         }
 
         return map
+    }
+
+    private fun deletePerson(person: Person) = CoroutineScope(Dispatchers.IO).launch {
+        val personQuery = personCollectionRef
+            .whereEqualTo("firstName", person.firstName)
+            .whereEqualTo("lastName", person.lastName)
+            .whereEqualTo("age", person.age)
+            .get().
+            await()
+
+        if (personQuery.documents.isNotEmpty()){
+            for (document in personQuery){
+                try {
+                    //to delete whole document i.e whole person
+                    personCollectionRef.document(document.id).delete().await()
+
+                    /*personCollectionRef.document(document.id).update(mapOf(
+                        "firstName" to FieldValue.delete(),
+                        "lastName" to FieldValue.delete()
+                    ))*/
+
+
+                }catch (e:Exception){
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }else{
+            withContext(Dispatchers.Main){
+                Toast.makeText(this@MainActivity, "No person matched the query", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun updatePerson(person: Person, newPersonMap: Map<String, Any>) = CoroutineScope(Dispatchers.IO).launch {
