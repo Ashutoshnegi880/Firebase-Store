@@ -95,11 +95,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Retrieve Data"
-        android:layout_marginRight="5dp"
         app:layout_constraintEnd_toStartOf="@+id/btnDeletePerson"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnUploadData" />
+
+
+    <Button
+        android:id="@+id/btnBatchWrite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Do Batch Write"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRetrieveData" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -126,25 +137,23 @@
         android:id="@+id/etFrom"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:hint="From"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/etTo"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRetrieveData" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBatchWrite" />
 
     <EditText
         android:id="@+id/etTo"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:hint="To"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/etFrom"
-        app:layout_constraintTop_toBottomOf="@+id/btnRetrieveData" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBatchWrite" />
 
     <Button
         android:id="@+id/btnUpdatePerson"
@@ -163,7 +172,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Delete Person"
-        android:layout_marginLeft="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnRetrieveData"
